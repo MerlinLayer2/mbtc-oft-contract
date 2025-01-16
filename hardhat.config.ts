@@ -12,7 +12,7 @@ import '@layerzerolabs/toolbox-hardhat'
 import { HardhatUserConfig, HttpNetworkAccountsUserConfig } from 'hardhat/types'
 
 import { EndpointId } from '@layerzerolabs/lz-definitions'
-
+import './task/send'
 import './type-extensions'
 
 // Set your preferred authentication method
@@ -40,6 +40,7 @@ const config: HardhatUserConfig = {
     paths: {
         cache: 'cache/hardhat',
     },
+    defaultNetwork: 'sepolia-testnet',
     solidity: {
         compilers: [
             {
@@ -56,20 +57,15 @@ const config: HardhatUserConfig = {
     networks: {
         'sepolia-testnet': {
             eid: EndpointId.SEPOLIA_V2_TESTNET,
-            url: process.env.RPC_URL_SEPOLIA || 'https://rpc.sepolia.org/',
+            url: process.env.RPC_URL_SEPOLIA || 'https://eth-sepolia.public.blastapi.io',
             accounts,
             oftAdapter: {
-                tokenAddress: '0x0', // Set the token address for the OFT adapter
+                tokenAddress: '0x81944bb8bdba5240831a7bf342201ec47ce267cd', // Set the token address for the OFT adapter
             },
         },
-        'avalanche-testnet': {
-            eid: EndpointId.AVALANCHE_V2_TESTNET,
-            url: process.env.RPC_URL_FUJI || 'https://rpc.ankr.com/avalanche_fuji',
-            accounts,
-        },
-        'amoy-testnet': {
-            eid: EndpointId.AMOY_V2_TESTNET,
-            url: process.env.RPC_URL_AMOY || 'https://polygon-amoy-bor-rpc.publicnode.com',
+        'sonic-testnet': {
+            eid: EndpointId.SONIC_V2_TESTNET,
+            url: process.env.RPC_URL_SONIC || 'https://rpc.blaze.soniclabs.com',
             accounts,
         },
         hardhat: {
@@ -79,7 +75,7 @@ const config: HardhatUserConfig = {
     },
     namedAccounts: {
         deployer: {
-            default: 0, // wallet address of index[0], of the mnemonic in .env
+            default: '0x71998C1f8E429BFbADa5FB6C7f23C374e5b411C1', // wallet address of index[0], of the mnemonic in .env
         },
     },
 }
