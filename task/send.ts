@@ -118,7 +118,6 @@ task('send', 'Sends tokens from either OFT or OFTAdapter')
       `sending ${taskArgs.amount} token(s) to network ${getNetworkNameForEid(eidB)} (${eidB})`,
     );
 
-    const ERC20Factory = await ethers.getContractFactory('ERC20');
     const innerTokenAddress = await oft.token();
 
     // // If the token address !== address(this), then this is an OFT Adapter
