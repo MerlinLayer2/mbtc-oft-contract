@@ -32,7 +32,7 @@ task('sendAdapter', 'Sends tokens from either OFT or OFTAdapter')
     const eidB = taskArgs.toEid;
 
     // Get the contract factories
-    const oftDeployment = await deployments.get('MyOFTAdapter');
+    const oftDeployment = await deployments.get('MBTC_OFTAdapter');
 
     const [signer] = await ethers.getSigners();
 
@@ -87,7 +87,7 @@ task('send', 'Sends tokens from either OFT or OFTAdapter')
     const eidB = taskArgs.toEid;
 
     // Get the contract factories
-    const oftDeployment = await deployments.get('MyOFT');
+    const oftDeployment = await deployments.get('MBTC_OFT');
 
     const [signer] = await ethers.getSigners();
 

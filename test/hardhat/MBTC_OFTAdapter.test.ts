@@ -5,21 +5,21 @@ import { deployments, ethers } from 'hardhat'
 
 import { Options } from '@layerzerolabs/lz-v2-utilities'
 
-describe('MyOFTAdapter Test', function () {
+describe('MBTC_OFTAdapter Test', function () {
     // Constant representing a mock Endpoint ID for testing purposes
     const eidA = 1
     const eidB = 2
     // Declaration of variables to be used in the test suite
-    let MyOFTAdapter: ContractFactory
-    let MyOFT: ContractFactory
+    let MBTC_OFTAdapter: ContractFactory
+    let MBTC_OFT: ContractFactory
     let ERC20Mock: ContractFactory
     let EndpointV2Mock: ContractFactory
     let ownerA: SignerWithAddress
     let ownerB: SignerWithAddress
     let endpointOwner: SignerWithAddress
     let token: Contract
-    let myOFTAdapter: Contract
-    let myOFTB: Contract
+    let mbtcOFTAdapter: Contract
+    let mbtcOFTB: Contract
     let mockEndpointV2A: Contract
     let mockEndpointV2B: Contract
 
@@ -28,9 +28,9 @@ describe('MyOFTAdapter Test', function () {
         // Contract factory for our tested contract
         //
         // We are using a derived contract that exposes a mint() function for testing purposes
-        MyOFTAdapter = await ethers.getContractFactory('MyOFTAdapterMock')
+        MBTC_OFTAdapter = await ethers.getContractFactory('MBTC_OFTAdapterMock')
 
-        MyOFT = await ethers.getContractFactory('MyOFTMock')
+        MBTC_OFT = await ethers.getContractFactory('MBTC_OFTMock')
 
         ERC20Mock = await ethers.getContractFactory('MyERC20Mock')
 
@@ -58,22 +58,22 @@ describe('MyOFTAdapter Test', function () {
 
         token = await ERC20Mock.deploy('Token', 'TOKEN')
 
-        // Deploying two instances of MyOFT contract with different identifiers and linking them to the mock LZEndpoint
-        myOFTAdapter = await MyOFTAdapter.deploy(token.address, mockEndpointV2A.address, ownerA.address)
-        myOFTB = await MyOFT.deploy('bOFT', 'bOFT', mockEndpointV2B.address, ownerB.address)
+        // Deploying two instances of MBTC_OFT contract with different identifiers and linking them to the mock LZEndpoint
+        mbtcOFTAdapter = await MBTC_OFTAdapter.deploy(token.address, mockEndpointV2A.address, ownerA.address)
+        mbtcOFTB = await MBTC_OFT.deploy('bOFT', 'bOFT', mockEndpointV2B.address, ownerB.address)
 
-        // Setting destination endpoints in the LZEndpoint mock for each MyOFT instance
-        await mockEndpointV2A.setDestLzEndpoint(myOFTB.address, mockEndpointV2B.address)
-        await mockEndpointV2B.setDestLzEndpoint(myOFTAdapter.address, mockEndpointV2A.address)
+        // Setting destination endpoints in the LZEndpoint mock for each MBTC_OFT instance
+        await mockEndpointV2A.setDestLzEndpoint(mbtcOFTB.address, mockEndpointV2B.address)
+        await mockEndpointV2B.setDestLzEndpoint(mbtcOFTAdapter.address, mockEndpointV2A.address)
 
-        // Setting each MyOFT instance as a peer of the other in the mock LZEndpoint
-        await myOFTAdapter.connect(ownerA).setPeer(eidB, ethers.utils.zeroPad(myOFTB.address, 32))
-        await myOFTB.connect(ownerB).setPeer(eidA, ethers.utils.zeroPad(myOFTAdapter.address, 32))
+        // Setting each MBTC_OFT instance as a peer of the other in the mock LZEndpoint
+        await mbtcOFTAdapter.connect(ownerA).setPeer(eidB, ethers.utils.zeroPad(mbtcOFTB.address, 32))
+        await mbtcOFTB.connect(ownerB).setPeer(eidA, ethers.utils.zeroPad(mbtcOFTAdapter.address, 32))
     })
 
     // A test case to verify token transfer functionality
     it('should send a token from A address to B address via OFTAdapter/OFT', async function () {
-        // Minting an initial amount of tokens to ownerA's address in the myOFTA contract
+        // Minting an initial amount of tokens to ownerA's address in the mbtcOFTA contract
         const initialAmount = ethers.utils.parseEther('100')
         await token.mint(ownerA.address, initialAmount)
 
@@ -94,18 +94,18 @@ describe('MyOFTAdapter Test', function () {
         ]
 
         // Fetching the native fee for the token send operation
-        const [nativeFee] = await myOFTAdapter.quoteSend(sendParam, false)
+        const [nativeFee] = await mbtcOFTAdapter.quoteSend(sendParam, false)
 
-        // Approving the native fee to be spent by the myOFTA contract
-        await token.connect(ownerA).approve(myOFTAdapter.address, tokensToSend)
+        // Approving the native fee to be spent by the mbtcOFTA contract
+        await token.connect(ownerA).approve(mbtcOFTAdapter.address, tokensToSend)
 
-        // Executing the send operation from myOFTA contract
-        await myOFTAdapter.send(sendParam, [nativeFee, 0], ownerA.address, { value: nativeFee })
+        // Executing the send operation from mbtcOFTA contract
+        await mbtcOFTAdapter.send(sendParam, [nativeFee, 0], ownerA.address, { value: nativeFee })
 
         // Fetching the final token balances of ownerA and ownerB
         const finalBalanceA = await token.balanceOf(ownerA.address)
-        const finalBalanceAdapter = await token.balanceOf(myOFTAdapter.address)
-        const finalBalanceB = await myOFTB.balanceOf(ownerB.address)
+        const finalBalanceAdapter = await token.balanceOf(mbtcOFTAdapter.address)
+        const finalBalanceB = await mbtcOFTB.balanceOf(ownerB.address)
 
         // Asserting that the final balances are as expected after the send operation
         expect(finalBalanceA).eql(initialAmount.sub(tokensToSend))

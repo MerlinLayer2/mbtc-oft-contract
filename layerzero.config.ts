@@ -19,12 +19,12 @@ import type { OAppOmniGraphHardhat, OmniPointHardhat } from '@layerzerolabs/tool
  */
 const sepoliaContract: OmniPointHardhat = {
     eid: EndpointId.SEPOLIA_V2_TESTNET,
-    contractName: 'MyOFTAdapter',
+    contractName: 'MBTC_OFTAdapter',
 }
 
 const sonicContract: OmniPointHardhat = {
     eid: EndpointId.SONIC_V2_TESTNET,
-    contractName: 'MyOFT',
+    contractName: 'MBTC_OFT',
 }
 
 
