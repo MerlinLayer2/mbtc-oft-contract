@@ -8,7 +8,7 @@ const deploy: DeployFunction = async (hre) => {
     const { getNamedAccounts, deployments } = hre
 
     const { deploy } = deployments
-    const { deployer } = await getNamedAccounts()
+    const { deployer, admin } = await getNamedAccounts()
 
     assert(deployer, 'Missing named deployer account')
 
@@ -46,7 +46,7 @@ const deploy: DeployFunction = async (hre) => {
             'Merlin BTC', // name
             'MBTC', // symbol
             endpointV2Deployment.address, // LayerZero's EndpointV2 address
-            deployer, // owner
+            admin, // owner
         ],
         log: true,
         skipIfAlreadyDeployed: false,

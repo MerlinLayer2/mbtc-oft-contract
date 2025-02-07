@@ -40,7 +40,7 @@ const config: HardhatUserConfig = {
     paths: {
         cache: 'cache/hardhat',
     },
-    defaultNetwork: 'sepolia-testnet',
+    defaultNetwork: 'ethereum',
     solidity: {
         compilers: [
             {
@@ -55,17 +55,17 @@ const config: HardhatUserConfig = {
         ],
     },
     networks: {
-        'sepolia-testnet': {
-            eid: EndpointId.SEPOLIA_V2_TESTNET,
-            url: process.env.RPC_URL_SEPOLIA || 'https://eth-sepolia.public.blastapi.io',
+        'ethereum': {
+            eid: EndpointId.ETHEREUM_V2_MAINNET,
+            url: 'https://eth.llamarpc.com',
             accounts,
             oftAdapter: {
-                tokenAddress: '0x81944bb8bdba5240831a7bf342201ec47ce267cd', // Set the token address for the OFT adapter
+                tokenAddress: '0x2F913C820ed3bEb3a67391a6eFF64E70c4B20b19', // Set the token address for the OFT adapter
             },
         },
-        'sonic-testnet': {
-            eid: EndpointId.SONIC_V2_TESTNET,
-            url: process.env.RPC_URL_SONIC || 'https://rpc.blaze.soniclabs.com',
+        'base': {
+            eid: EndpointId.BASE_V2_MAINNET,
+            url: 'https://base.llamarpc.com',
             accounts,
         },
         hardhat: {
@@ -76,6 +76,10 @@ const config: HardhatUserConfig = {
     namedAccounts: {
         deployer: {
             default: '0x71998C1f8E429BFbADa5FB6C7f23C374e5b411C1', // wallet address of index[0], of the mnemonic in .env
+        },
+        admin: {
+            ethereum: '0xf0B903d928353EfC4C0639a04F128F18CFB38E06', 
+            base: '0x62184Bc4160421d5DF310EBfE33F5B8136f38915', 
         },
     },
 }

@@ -8,7 +8,7 @@ const deploy: DeployFunction = async (hre) => {
     const { getNamedAccounts, deployments } = hre
 
     const { deploy } = deployments
-    const { deployer } = await getNamedAccounts()
+    const { deployer, admin } = await getNamedAccounts()
 
     assert(deployer, 'Missing named deployer account')
 
@@ -40,13 +40,13 @@ const deploy: DeployFunction = async (hre) => {
 
         return
     }
-
+    
     const { address } = await deploy(contractName, {
         from: deployer,
         args: [
             hre.network.config.oftAdapter.tokenAddress, // token address
             endpointV2Deployment.address, // LayerZero's EndpointV2 address
-            deployer, // owner
+            admin, // owner
         ],
         log: true,
         skipIfAlreadyDeployed: false,

@@ -17,13 +17,13 @@ import type { OAppOmniGraphHardhat, OmniPointHardhat } from '@layerzerolabs/tool
  *         },
  *     },
  */
-const sepoliaContract: OmniPointHardhat = {
-    eid: EndpointId.SEPOLIA_V2_TESTNET,
+const ethereumContract: OmniPointHardhat = {
+    eid: EndpointId.ETHEREUM_V2_MAINNET,
     contractName: 'MBTC_OFTAdapter',
 }
 
-const sonicContract: OmniPointHardhat = {
-    eid: EndpointId.SONIC_V2_TESTNET,
+const baseContract: OmniPointHardhat = {
+    eid: EndpointId.BASE_V2_MAINNET,
     contractName: 'MBTC_OFT',
 }
 
@@ -32,20 +32,20 @@ const sonicContract: OmniPointHardhat = {
 const config: OAppOmniGraphHardhat = {
     contracts: [
         {
-            contract: sepoliaContract,
+            contract: ethereumContract,
         },
         {
-            contract: sonicContract,
+            contract: baseContract,
         },
     ],
     connections: [
         {
-            from: sonicContract,
-            to: sepoliaContract,
+            from: ethereumContract,
+            to: baseContract,
         },
         {
-            from: sepoliaContract,
-            to: sonicContract,
+            from: baseContract,
+            to: ethereumContract,
         },
     ],
 }
