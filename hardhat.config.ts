@@ -8,6 +8,8 @@ import 'dotenv/config'
 import 'hardhat-deploy'
 import 'hardhat-contract-sizer'
 import '@nomiclabs/hardhat-ethers'
+import "@nomicfoundation/hardhat-verify";
+
 import '@layerzerolabs/toolbox-hardhat'
 import { HardhatUserConfig, HttpNetworkAccountsUserConfig } from 'hardhat/types'
 
@@ -27,8 +29,8 @@ const PRIVATE_KEY = process.env.PRIVATE_KEY
 const accounts: HttpNetworkAccountsUserConfig | undefined = MNEMONIC
     ? { mnemonic: MNEMONIC }
     : PRIVATE_KEY
-      ? [PRIVATE_KEY]
-      : undefined
+        ? [PRIVATE_KEY]
+        : undefined
 
 if (accounts == null) {
     console.warn(
@@ -78,10 +80,16 @@ const config: HardhatUserConfig = {
             default: '0x71998C1f8E429BFbADa5FB6C7f23C374e5b411C1', // wallet address of index[0], of the mnemonic in .env
         },
         admin: {
-            ethereum: '0xf0B903d928353EfC4C0639a04F128F18CFB38E06', 
-            base: '0x62184Bc4160421d5DF310EBfE33F5B8136f38915', 
+            ethereum: '0xf0B903d928353EfC4C0639a04F128F18CFB38E06',
+            base: '0x62184Bc4160421d5DF310EBfE33F5B8136f38915',
         },
     },
+    etherscan: {
+        apiKey: {
+            mainnet: 'QQSZI1CU54FYCS3U276T7P6N43PETPRBIS',
+            base: 'N5EF74NP5UH4T1KDM3NM6BJ1TZAMIZE6F2'
+        }
+    }
 }
 
 export default config
