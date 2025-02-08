@@ -23,7 +23,7 @@ interface SendParam {
 
 
 // send tokens from a contract on one network to another
-task('sendAdapter', 'Sends tokens from either OFT or OFTAdapter')
+task('sendAdapter', 'Sends tokens from OFTAdapter')
   .addParam('to', 'contract address on network B', undefined, types.string)
   .addParam('toEid', 'destination endpoint ID', undefined, types.eid)
   .addParam('amount', 'amount to transfer in token decimals', undefined, types.string)
@@ -44,7 +44,7 @@ task('sendAdapter', 'Sends tokens from either OFT or OFTAdapter')
 
     const decimals = await innerToken.decimals();
     const amount = ethers.utils.parseUnits(taskArgs.amount, decimals);
-    let options = Options.newOptions().addExecutorLzReceiveOption(65000, 0).toBytes();
+    let options = Options.newOptions().addExecutorLzReceiveOption(130000, 0).toBytes();
 
     // Now you can interact with the correct contract
     const oft = oftContract;
@@ -78,7 +78,7 @@ task('sendAdapter', 'Sends tokens from either OFT or OFTAdapter')
   });
 
 // send tokens from a contract on one network to another
-task('send', 'Sends tokens from either OFT or OFTAdapter')
+task('send', 'Sends tokens from either OFT')
   .addParam('to', 'contract address on network B', undefined, types.string)
   .addParam('toEid', 'destination endpoint ID', undefined, types.eid)
   .addParam('amount', 'amount to transfer in token decimals', undefined, types.string)
@@ -96,7 +96,7 @@ task('send', 'Sends tokens from either OFT or OFTAdapter')
 
     const decimals = await oftContract.decimals();
     const amount = ethers.utils.parseUnits(taskArgs.amount, decimals);
-    let options = Options.newOptions().addExecutorLzReceiveOption(65000, 0).toBytes();
+    let options = Options.newOptions().addExecutorLzReceiveOption(130000, 0).toBytes();
 
     // Now you can interact with the correct contract
     const oft = oftContract;
