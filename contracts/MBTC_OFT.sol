@@ -1,7 +1,9 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.22;
 
+import { ERC20 } from "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import { Ownable } from "@openzeppelin/contracts/access/Ownable.sol";
+import { Pausable } from "@openzeppelin/contracts/utils/Pausable.sol";
 import { OFT } from "@layerzerolabs/oft-evm/contracts/OFT.sol";
 
 contract MBTC_OFT is OFT, Pausable {
@@ -28,7 +30,7 @@ contract MBTC_OFT is OFT, Pausable {
         emit SetBlackList(account, state);
     }
 
-    function setPaused(bool _paused) external onlyOwner {
-        paused = _paused;
+    function setPaused() external onlyOwner {
+        _pause();
     }
 }

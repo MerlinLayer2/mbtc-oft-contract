@@ -43,8 +43,8 @@ const deploy: DeployFunction = async (hre) => {
     const { address } = await deploy(contractName, {
         from: deployer,
         args: [
-            'Merlin BTC', // name
-            'MBTC', // symbol
+            'Merlin BTC2', // name
+            'MBTC2', // symbol
             endpointV2Deployment.address, // LayerZero's EndpointV2 address
             admin, // owner
         ],

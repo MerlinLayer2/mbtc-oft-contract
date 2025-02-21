@@ -38,6 +38,7 @@
     "@layerzerolabs/toolbox-foundry": "~0.1.9",
     "@layerzerolabs/toolbox-hardhat": "~0.6.3",
     "@nomicfoundation/hardhat-ethers": "^3.0.5",
+    "@nomicfoundation/hardhat-toolbox": "^5.0.0",
     "@nomicfoundation/hardhat-verify": "^2.0.12",
     "@nomiclabs/hardhat-ethers": "^2.2.3",
     "@openzeppelin/contracts": "^5.0.2",
@@ -52,7 +53,7 @@
     "eslint": "^8.55.0",
     "eslint-plugin-jest-extended": "~2.0.0",
     "ethers": "^5.7.2",
-    "hardhat": "^2.22.10",
+    "hardhat": "^2.22.18",
     "hardhat-contract-sizer": "^2.10.0",
     "hardhat-deploy": "^0.12.1",
     "mocha": "^10.2.0",
@@ -73,5 +74,11 @@
   "overrides": {
     "ethers": "^5.7.2",
     "hardhat-deploy": "^0.12.1"
-  }
+  },
+  "description": "<p align=\"center\">   <a href=\"https://layerzero.network\">     <img alt=\"LayerZero\" style=\"width: 400px\" src=\"https://docs.layerzero.network/img/LayerZero_Logo_White.svg\"/>   </a> </p>",
+  "main": ".eslintrc.js",
+  "directories": {
+    "test": "test"
+  },
+  "author": ""
 }

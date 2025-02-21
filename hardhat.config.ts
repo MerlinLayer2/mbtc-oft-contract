@@ -42,7 +42,7 @@ const config: HardhatUserConfig = {
     paths: {
         cache: 'cache/hardhat',
     },
-    defaultNetwork: 'ethereum',
+    defaultNetwork: 'bnb',
     solidity: {
         compilers: [
             {
@@ -57,15 +57,15 @@ const config: HardhatUserConfig = {
         ],
     },
     networks: {
-        'ethereum': {
-            eid: EndpointId.ETHEREUM_V2_MAINNET,
-            url: 'https://eth.llamarpc.com',
+        bnb: {
+            eid: EndpointId.BSC_V2_MAINNET,
+            url: 'https://bsc-pokt.nodies.app',
             accounts,
             oftAdapter: {
                 tokenAddress: '0x2F913C820ed3bEb3a67391a6eFF64E70c4B20b19', // Set the token address for the OFT adapter
             },
         },
-        'base': {
+        base: {
             eid: EndpointId.BASE_V2_MAINNET,
             url: 'https://base.llamarpc.com',
             accounts,
@@ -77,19 +77,19 @@ const config: HardhatUserConfig = {
     },
     namedAccounts: {
         deployer: {
-            default: '0x71998C1f8E429BFbADa5FB6C7f23C374e5b411C1', // wallet address of index[0], of the mnemonic in .env
+            default: '0x58eE238A5aB9e90D063A7B43D498782664dc5716', // wallet address of index[0], of the mnemonic in .env
         },
         admin: {
-            ethereum: '0xf0B903d928353EfC4C0639a04F128F18CFB38E06',
-            base: '0x62184Bc4160421d5DF310EBfE33F5B8136f38915',
+            bnb: '0x58eE238A5aB9e90D063A7B43D498782664dc5716',
+            base: '0x58eE238A5aB9e90D063A7B43D498782664dc5716',
         },
     },
     etherscan: {
         apiKey: {
-            mainnet: 'QQSZI1CU54FYCS3U276T7P6N43PETPRBIS',
-            base: 'N5EF74NP5UH4T1KDM3NM6BJ1TZAMIZE6F2'
-        }
-    }
+            mainnet: '24I7PCKY3WJH2685QV25SN5UDKGAX5VIG1',
+            base: 'N5EF74NP5UH4T1KDM3NM6BJ1TZAMIZE6F2',
+        },
+    },
 }
 
 export default config
