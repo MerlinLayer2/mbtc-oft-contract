@@ -42,7 +42,7 @@ const config: HardhatUserConfig = {
     paths: {
         cache: 'cache/hardhat',
     },
-    defaultNetwork: 'bnb',
+    defaultNetwork: 'polygon',
     solidity: {
         compilers: [
             {
@@ -57,12 +57,12 @@ const config: HardhatUserConfig = {
         ],
     },
     networks: {
-        bnb: {
-            eid: EndpointId.BSC_V2_MAINNET,
-            url: 'https://bsc-pokt.nodies.app',
+        polygon: {
+            eid: EndpointId.POLYGON_V2_MAINNET,
+            url: 'https://polygon.llamarpc.com',
             accounts,
             oftAdapter: {
-                tokenAddress: '0x2F913C820ed3bEb3a67391a6eFF64E70c4B20b19', // Set the token address for the OFT adapter
+                tokenAddress: '0x32491B669cdaaC8DdE29C28EaE0cBf5A844f1d56', // Set the token address for the OFT adapter
             },
         },
         base: {
@@ -80,13 +80,13 @@ const config: HardhatUserConfig = {
             default: '0x58eE238A5aB9e90D063A7B43D498782664dc5716', // wallet address of index[0], of the mnemonic in .env
         },
         admin: {
-            bnb: '0x58eE238A5aB9e90D063A7B43D498782664dc5716',
+            polygon: '0x58eE238A5aB9e90D063A7B43D498782664dc5716',
             base: '0x58eE238A5aB9e90D063A7B43D498782664dc5716',
         },
     },
     etherscan: {
         apiKey: {
-            mainnet: '24I7PCKY3WJH2685QV25SN5UDKGAX5VIG1',
+            polygon: 'FEK5DXKEUCFVEA2GUP48UQ3YUT7DPIXI14',
             base: 'N5EF74NP5UH4T1KDM3NM6BJ1TZAMIZE6F2',
         },
     },
