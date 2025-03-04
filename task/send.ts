@@ -65,31 +65,27 @@ task('sendAdapter', 'Sends tokens from OFTAdapter')
       composeMsg: ethers.utils.arrayify('0x'), // Assuming no composed message
       oftCmd: ethers.utils.arrayify('0x'), // Assuming no OFT command is needed
     };
-      console.log("----- 2");
+    console.log("----- 2");
     // Get the quote for the send operation
     const feeQuote = await oft.quoteSend(sendParam, false);
-      console.log("----- 3");
+    console.log("----- 3");
     const nativeFee = feeQuote.nativeFee;
 
-      console.log("----- 4", feeQuote);
-
+    console.log("----- 4", feeQuote);
     console.log(
       `sending ${taskArgs.amount} token(s) to network ${getNetworkNameForEid(eidB)} (${eidB})`,
     );
 
-
-        // Approve the amount to be spent by the oft contract
+    // Approve the amount to be spent by the oft contract
     const tx = await innerToken.approve(oftDeployment.address, amount);
     await tx.wait();
 
-      console.log("----- 5", feeQuote);
-
+    console.log("----- 5", feeQuote);
     const r = await oft.send(sendParam, {nativeFee: nativeFee, lzTokenFee: 0}, signer.address, {
       value: nativeFee,
-        // gasLimit: 30000000,
     });
 
-      console.log("----- 6", feeQuote);
+    console.log("----- 6", feeQuote);
     console.log(`Send tx initiated. See: https://layerzeroscan.com/tx/${r.hash}`);
   });
 
