@@ -5,10 +5,13 @@ import {addressToBytes32} from '@layerzerolabs/lz-v2-utilities';
 import {Options} from '@layerzerolabs/lz-v2-utilities';
 import {BigNumberish, BytesLike} from 'ethers';
 
+//run it.
+//npx hardhat sendAdapter --amount "0.1" --to "0xD83eB140a0F464c6Af07E8d9Da301500275073BA" --toeid 30184
+
 interface Args {
   amount: string;
   to: string;
-  toEid: EndpointId;
+  toeid: EndpointId;
 }
 
 interface SendParam {
@@ -25,16 +28,18 @@ interface SendParam {
 // send tokens from a contract on one network to another
 task('sendAdapter', 'Sends tokens from OFTAdapter')
   .addParam('to', 'contract address on network B', undefined, types.string)
-  .addParam('toEid', 'destination endpoint ID', undefined, types.eid)
+  .addParam('toeid', 'destination endpoint ID', undefined, types.eid)
   .addParam('amount', 'amount to transfer in token decimals', undefined, types.string)
   .setAction(async (taskArgs: Args, {ethers, deployments}) => {
     const toAddress = taskArgs.to;
-    const eidB = taskArgs.toEid;
+    const eidB = taskArgs.toeid;
 
     // Get the contract factories
     const oftDeployment = await deployments.get('MBTC_OFTAdapter');
 
     const [signer] = await ethers.getSigners();
+
+    console.log("----- oftDeployment.address, signer = ", oftDeployment.address, signer);
 
     // Create contract instances
     const oftContract = new ethers.Contract(oftDeployment.address, oftDeployment.abi, signer);
@@ -42,13 +47,15 @@ task('sendAdapter', 'Sends tokens from OFTAdapter')
     const innerTokenAddress = await oftContract.token();
     const innerToken = await ethers.getContractAt('ERC20', innerTokenAddress);
 
+    console.log("----- innerTokenAddress = ", innerTokenAddress);
     const decimals = await innerToken.decimals();
     const amount = ethers.utils.parseUnits(taskArgs.amount, decimals);
-    let options = Options.newOptions().addExecutorLzReceiveOption(130000, 0).toBytes();
+    let options = Options.newOptions().addExecutorLzReceiveOption('130000', '0').toBytes();
 
     // Now you can interact with the correct contract
     const oft = oftContract;
 
+    console.log("----- 1", decimals, amount);
     const sendParam: SendParam = {
       dstEid: eidB,
       to: addressToBytes32(toAddress),
@@ -58,9 +65,13 @@ task('sendAdapter', 'Sends tokens from OFTAdapter')
       composeMsg: ethers.utils.arrayify('0x'), // Assuming no composed message
       oftCmd: ethers.utils.arrayify('0x'), // Assuming no OFT command is needed
     };
+      console.log("----- 2");
     // Get the quote for the send operation
     const feeQuote = await oft.quoteSend(sendParam, false);
+      console.log("----- 3");
     const nativeFee = feeQuote.nativeFee;
+
+      console.log("----- 4", feeQuote);
 
     console.log(
       `sending ${taskArgs.amount} token(s) to network ${getNetworkNameForEid(eidB)} (${eidB})`,
@@ -71,20 +82,25 @@ task('sendAdapter', 'Sends tokens from OFTAdapter')
     const tx = await innerToken.approve(oftDeployment.address, amount);
     await tx.wait();
 
+      console.log("----- 5", feeQuote);
+
     const r = await oft.send(sendParam, {nativeFee: nativeFee, lzTokenFee: 0}, signer.address, {
       value: nativeFee,
+        // gasLimit: 30000000,
     });
+
+      console.log("----- 6", feeQuote);
     console.log(`Send tx initiated. See: https://layerzeroscan.com/tx/${r.hash}`);
   });
 
 // send tokens from a contract on one network to another
 task('send', 'Sends tokens from either OFT')
   .addParam('to', 'contract address on network B', undefined, types.string)
-  .addParam('toEid', 'destination endpoint ID', undefined, types.eid)
+  .addParam('toeid', 'destination endpoint ID', undefined, types.eid)
   .addParam('amount', 'amount to transfer in token decimals', undefined, types.string)
   .setAction(async (taskArgs: Args, {ethers, deployments}) => {
     const toAddress = taskArgs.to;
-    const eidB = taskArgs.toEid;
+    const eidB = taskArgs.toeid;
 
     // Get the contract factories
     const oftDeployment = await deployments.get('MBTC_OFT');
