@@ -7,7 +7,7 @@ const sendLibAddress = '0x6c26c61a97006888ea9E4FA36584c7df57Cd9dA3'; // Replace 
 // Configuration
 const remoteEid = 30184; // Example EID, replace with the actual value
 const ulnConfig = {
-    confirmations: 10, // Example value, replace with actual
+    confirmations: 512, // Example value, replace with actual
     requiredDVNCount: 1, // Example value, replace with actual
     optionalDVNCount: 0, // Example value, replace with actual
     optionalDVNThreshold: 0, // Example value, replace with actual
@@ -23,6 +23,8 @@ const executorConfig = {
 // Provider and Signer
 const provider = new ethers.providers.JsonRpcProvider('https://polygon-pokt.nodies.app');
 const signer = new ethers.Wallet(process.env.PRIVATE_KEY, provider);
+console.log('signer.address = ', signer.address);
+// return;
 
 // ABI and Contract
 const endpointAbi = [
@@ -55,13 +57,6 @@ const setConfigParamExecutor = {
     config: encodedExecutorConfig,
 };
 
-// EnforcedOptionParam[] memory aEnforcedOptions = new EnforcedOptionParam[](1);
-// // Send gas for lzReceive (A -> B).
-// aEnforcedOptions[0] = EnforcedOptionParam({eid: bEid, msgType: SEND, options: OptionsBuilder.newOptions().addExecutorLzReceiveOption(65000, 0)});
-//
-// // Call the setEnforcedOptions function
-// aOFT.setEnforcedOptions(aEnforcedOptions);
-
 // Send the transaction
 async function sendTransaction1() {
     try {
@@ -72,7 +67,7 @@ async function sendTransaction1() {
             // [setConfigParamExecutor], // Array of SetConfigParam structs
         );
 
-        console.log('Transaction sent:', tx.hash);
+        console.log('Transaction sent:', tx.hash, tx);
         const receipt = await tx.wait();
         console.log('Transaction confirmed:', receipt.transactionHash);
     } catch (error) {
