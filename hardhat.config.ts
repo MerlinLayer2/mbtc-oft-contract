@@ -59,7 +59,7 @@ const config: HardhatUserConfig = {
     networks: {
         polygon: {
             eid: EndpointId.POLYGON_V2_MAINNET,
-            url: 'https://polygon.llamarpc.com',
+            url: 'https://polygon-pokt.nodies.app', //https://polygon.llamarpc.com、https://polygon-pokt.nodies.app
             accounts,
             oftAdapter: {
                 tokenAddress: '0x32491B669cdaaC8DdE29C28EaE0cBf5A844f1d56', // Set the token address for the OFT adapter
@@ -67,7 +67,7 @@ const config: HardhatUserConfig = {
         },
         base: {
             eid: EndpointId.BASE_V2_MAINNET,
-            url: 'https://base.llamarpc.com',
+            url: 'https://base-pokt.nodies.app', //https://base.llamarpc.com、https://base-pokt.nodies.app
             accounts,
         },
         hardhat: {

@@ -39,10 +39,10 @@ const setConfigParam = {
 
 console.log('xxxx, ulnConfig = ', ulnConfig);
 console.log('xxxx, setConfigParam = ', setConfigParam);
-return;
+// return;
 
 // Send the transaction
-async function sendTransaction() {
+async function sendTransaction2() {
     try {
         const tx = await endpointContract.setConfig(
             oappAddress,
@@ -58,4 +58,4 @@ async function sendTransaction() {
     }
 }
 
-sendTransaction();
+sendTransaction2();
